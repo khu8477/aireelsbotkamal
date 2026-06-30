@@ -1,0 +1,24 @@
+name: Auto News Bot
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 * * * *'  # هذا السطر يعني: اعمل في الدقيقة صفر من كل ساعة
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install Requirements
+        run: pip install -r requirements.txt
+      - name: Run News Bot
+        run: python bot.py
+        env:
+          NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
+          FB_TOKEN: ${{ secrets.FB_TOKEN }}
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+
